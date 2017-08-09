@@ -1,6 +1,9 @@
 package edu.eci.arsw.math;
 
 ///  <summary>
+
+import java.util.ArrayList;
+
 ///  An implementation of the Bailey-Borwein-Plouffe formula for calculating hexadecimal
 ///  digits of pi.
 ///  https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula
@@ -11,6 +14,60 @@ public class PiDigits {
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
 
+    /**
+     * Returns a range of hexadecimal digits of pi using parallelism.
+     * @param start The starting location of the range.
+     * @param count The number of digits to return
+     * @param n The number of threads that would be used to get the digits.
+     * @return An array containing the hexadecimal digits.
+     */
+    public static byte[] getDigits(int start, int count, int n){
+        ArrayList<PiDigitsParallel> threads = new ArrayList<PiDigitsParallel>();
+        byte[] digits = null;
+        int delta = (start + count) / n;
+        int residue = (start + count) % n;
+        PiDigitsParallel newThread = null;
+        for(int i = 0; i < n; i++){
+            if(i + 1 < n){
+                newThread = new PiDigitsParallel(start + (i * delta), (delta * (i + 1)) - 1);
+            }else{
+                newThread = new PiDigitsParallel(start + (i * delta), delta * (i + 1) + residue);
+            }
+            newThread.start();
+        }
+        for(PiDigitsParallel thread: threads){
+            try{
+                thread.join();
+            }catch(Exception e){
+                e.printStackTrace();
+            }            
+        }
+        for(int i = 0; i < threads.size(); i++){
+            digits = concatenate(digits, threads.get(i).getDigits());
+        }        
+        return digits;
+    }
+    
+    /**
+     * Concatenate two arrays.
+     * @param first The first array.
+     * @param second The second array.
+     * @return An array that contains the elements of first and second.
+     */
+    public static byte[] concatenate(byte[] first, byte[] second){
+        int newSize = first.length + second.length;
+        byte[] newArray = new byte[newSize];
+        int index = 0;
+        for(byte number: first){
+            newArray[index] = number;
+            index++;
+        }
+        for(byte number: second){
+            newArray[index] = number;
+            index++;
+        }        
+        return newArray;
+    }
     
     /**
      * Returns a range of hexadecimal digits of pi.

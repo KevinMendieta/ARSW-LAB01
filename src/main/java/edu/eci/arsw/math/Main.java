@@ -14,14 +14,16 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String a[]) {
-        System.out.println(bytesToHex(PiDigits.getDigits(0, 10)));
-        System.out.println(bytesToHex(PiDigits.getDigits(1, 100)));
-        System.out.println(bytesToHex(PiDigits.getDigits(1, 1000000)));
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 10, 4)));
+        System.out.println(bytesToHex(PiDigits.getDigits(1, 100, 4)));
+        System.out.println(bytesToHex(PiDigits.getDigits(1, 1000000, 4)));
+        
     }
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     public static String bytesToHex(byte[] bytes) {
+        //System.out.println(bytes == null);
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
