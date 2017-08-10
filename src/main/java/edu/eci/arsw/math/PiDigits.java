@@ -3,6 +3,7 @@ package edu.eci.arsw.math;
 ///  <summary>
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 ///  An implementation of the Bailey-Borwein-Plouffe formula for calculating hexadecimal
 ///  digits of pi.
@@ -23,17 +24,18 @@ public class PiDigits {
      */
     public static byte[] getDigits(int start, int count, int n){
         ArrayList<PiDigitsParallel> threads = new ArrayList<PiDigitsParallel>();
-        byte[] digits = null;
-        int delta = (start + count) / n;
-        int residue = (start + count) % n;
+        byte[] digits = {};
+        int division = count / n;
+        int residue = count % n;
         PiDigitsParallel newThread = null;
         for(int i = 0; i < n; i++){
             if(i + 1 < n){
-                newThread = new PiDigitsParallel(start + (i * delta), (delta * (i + 1)) - 1);
+                newThread = new PiDigitsParallel(start + (i * division), division);
             }else{
-                newThread = new PiDigitsParallel(start + (i * delta), delta * (i + 1) + residue);
+                newThread = new PiDigitsParallel(start + (i * division), division + residue);
             }
             newThread.start();
+            threads.add(newThread);
         }
         for(PiDigitsParallel thread: threads){
             try{
@@ -44,7 +46,7 @@ public class PiDigits {
         }
         for(int i = 0; i < threads.size(); i++){
             digits = concatenate(digits, threads.get(i).getDigits());
-        }        
+        }
         return digits;
     }
     
@@ -52,7 +54,7 @@ public class PiDigits {
      * Concatenate two arrays.
      * @param first The first array.
      * @param second The second array.
-     * @return An array that contains the elements of first and second.
+     * @return An array that contains the elements of second after the elements of first.
      */
     public static byte[] concatenate(byte[] first, byte[] second){
         int newSize = first.length + second.length;
