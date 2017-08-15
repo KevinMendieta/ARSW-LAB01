@@ -18,8 +18,8 @@ public class Main {
         System.out.println(bytesToHex(PiDigits.getDigits(1, 10, 9)));
         System.out.println(bytesToHex(PiDigits.getDigits(1, 100)));
         System.out.println(bytesToHex(PiDigits.getDigits(1, 100, 50)));
-        System.out.println(bytesToHex(PiDigits.getDigits(1, 5000)));
-        System.out.println(bytesToHex(PiDigits.getDigits(1, 5000, 50)));
+        System.out.println(bytesToHex(PiDigits.getDigits(1, 6000)));
+        System.out.println(bytesToHex(PiDigits.getDigits(1, 6000, 50)));
         
     }
 

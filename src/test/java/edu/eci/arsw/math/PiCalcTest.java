@@ -40,8 +40,6 @@ public class PiCalcTest {
         for (int start = 0; start < expected.length; start++) {
             for (int count = 0; count < expected.length - start; count++) {
                 byte[] digits = PiDigits.getDigits(start, count, 1);
-<<<<<<< HEAD
-=======
                 assertEquals(count, digits.length);
 
                 for (int i = 0; i < digits.length; i++) {
@@ -69,7 +67,6 @@ public class PiCalcTest {
         for (int start = 0; start < expected.length; start++) {
             for (int count = 0; count < expected.length - start; count++) {
                 byte[] digits = PiDigits.getDigits(start, count, 2);
->>>>>>> ad7a7401f8d2acaa0e561254219f50ad4f0d6aa0
                 assertEquals(count, digits.length);
 
                 for (int i = 0; i < digits.length; i++) {
