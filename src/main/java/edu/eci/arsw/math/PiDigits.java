@@ -25,6 +25,7 @@ public class PiDigits {
     public static byte[] getDigits(int start, int count, int n){
         ArrayList<PiDigitsParallel> threads = new ArrayList<PiDigitsParallel>();
         byte[] digits = {};
+        if (n > count) n = count;
         int division = count / n;
         int residue = count % n;
         PiDigitsParallel newThread = null;
